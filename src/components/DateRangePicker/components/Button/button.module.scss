@@ -1,0 +1,32 @@
+.button {
+  cursor: pointer;
+  padding: 5px 14px;
+  text-align: left;
+
+  &.dark {
+    border: 1px solid var(--light-text);
+    background-color: var(--dark-backgroud);
+    color: var(--light-text);
+  }
+
+  &.light,
+  &:hover {
+    border: 1px solid var(--light-blue);
+    background-color: var(--light-blue);
+    color: var(--dark-text);
+  }
+
+  &:hover {
+    filter: brightness(95%);
+  }
+
+  &:active {
+    filter: brightness(90%);
+  }
+}
+
+.active {
+  background-color: var(--light-blue);
+  border-color: var(--light-blue);
+  color: var(--dark-text);
+}

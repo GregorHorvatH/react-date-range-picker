@@ -1,0 +1,10 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.datePicker {
+  align-self: flex-end;
+  width: 465px;
+}

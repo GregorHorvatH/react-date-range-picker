@@ -1,0 +1,11 @@
+.radioWrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.radio {
+  accent-color: var(--light-blue);
+  width: 16px;
+  height: 16px;
+}

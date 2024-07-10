@@ -1,0 +1,45 @@
+:root {
+  --dark-background: #3b3b3b;
+  --light-text: #e8e8e8;
+  --dark-text: #1a1a1a;
+  --light-blue: #93bdfa;
+}
+
+.dateRangePicker {
+  color: var(--light-text);
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+}
+
+.dateInputField {
+  background-color: var(--dark-background);
+  border: 1px solid var(--light-text);
+  outline: none;
+  color: var(--light-text);
+  padding: 14px 18px;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.dateInputPanel {
+  background-color: var(--dark-background);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+}
+
+.rangeSelectors {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
