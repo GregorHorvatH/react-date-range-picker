@@ -4,11 +4,13 @@ import { Button } from '../Button';
 
 import styles from './actions.module.scss';
 
-export const Actions = ({ onApply, onCancel }) => (
+export const Actions = ({ theme = 'light', onApply, onCancel }) => (
   <div className={styles.actions}>
-    <Button variant="light" onClick={onApply}>
+    <Button theme={theme} variant="primary" onClick={onApply}>
       Apply
     </Button>
-    <Button onClick={onCancel}>Cancel</Button>
+    <Button theme={theme} variant="secondary" onClick={onCancel}>
+      Cancel
+    </Button>
   </div>
 );

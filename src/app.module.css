@@ -2,9 +2,31 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  height: 90vh;
+}
+
+.dark {
+  background-color: #2e2e2e;
+  color: #e8e8e8;
+}
+
+.light {
+  /* background-color: #ebebeb; */
+  color: #4d4d4d;
+}
+
+.flex {
+  display: flex;
 }
 
 .datePicker {
+  justify-content: flex-end;
   align-self: flex-end;
   width: 465px;
+}
+
+.toggler {
+  align-self: flex-end;
+  display: flex;
+  gap: 5px;
 }

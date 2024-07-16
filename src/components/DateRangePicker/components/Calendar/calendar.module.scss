@@ -1,2 +1,75 @@
 .calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.calendarIcon {
+  cursor: pointer;
+  fill: none;
+  stroke: var(--light-text);
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  height: 18px;
+  width: 18px;
+  z-index: 1;
+}
+
+.calendarInput {
+  background-color: var(--dark-gray);
+  border: 1px solid var(--medium-gray);
+  outline: none;
+  color: var(--light-text);
+  padding: 8px 18px 8px 32px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.dropdowns {
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  gap: 5px;
+}
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.header {
+  flex: 1;
+  text-align: center;
+}
+
+.arrowIcon {
+  cursor: pointer;
+  fill: var(--light-text);
+  height: 14px;
+  width: 14px;
+}
+
+.clockIcon {
+  cursor: pointer;
+  fill: none;
+  stroke: var(--light-text);
+  height: 18px;
+  width: 18px;
+}
+
+.th {
+  padding: 0 8px;
+}
+
+.td {
+  cursor: pointer;
+  padding: 8px;
 }

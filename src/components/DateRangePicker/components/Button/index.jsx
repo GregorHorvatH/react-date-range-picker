@@ -6,9 +6,17 @@ import styles from './button.module.scss';
  * Button component
  * @param {string} variant - dark, light
  */
-export const Button = ({ children, variant = 'dark', ...props }) => {
+export const Button = ({
+  children,
+  variant = 'primary',
+  theme = 'light',
+  ...props
+}) => {
   return (
-    <button className={`${styles.button} ${styles[variant]}`} {...props}>
+    <button
+      className={`${styles.button} ${styles[theme]} ${styles[variant]}`}
+      {...props}
+    >
       {children}
     </button>
   );

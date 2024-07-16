@@ -1,3 +1,21 @@
+import { CALENDAR, RANGE_ITEMS } from '../constants';
+
+// Return the date params separately
+export const getDateParams = (date) => {
+  if (!date) return;
+
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth());
+  const day = String(date.getDate());
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes());
+  const period = hours > 12 ? 'PM' : 'AM';
+
+  hours = String(period === 'PM' ? hours - 12 : hours);
+
+  return { year, month, day, hours, minutes, period };
+};
+
 // Convert 12-hour format to 24-hour format if needed
 export const convertTo24HourFormat = (hour, period) => {
   hour = parseInt(hour, 10);
@@ -33,6 +51,59 @@ export const formatDate = (date) => {
   return `${dd}/${mm}/${yyyy} ${hh}:${min} ${p}`;
 };
 
+export const formatDateRange = ({ fromDate, toDate }) =>
+  fromDate && toDate
+    ? `${formatDate(fromDate)} - ${formatDate(toDate)}`
+    : undefined;
+
+export const createDateString = ({
+  year,
+  month,
+  day,
+  hours,
+  minutes,
+  period,
+}) => {
+  const formattedMonth = String(parseInt(month) + 1).padStart(2, 0);
+  const formattedDay = day.padStart(2, 0);
+  const formattedHours = hours.padStart(2, 0);
+  const formattedMinutes = minutes.padStart(2, 0);
+
+  return `${formattedDay}/${formattedMonth}/${year} ${formattedHours}:${formattedMinutes} ${period}`;
+};
+
+export const parseDate = (dateStr) => {
+  // Define a regular expression to match the date range pattern
+  const datePattern = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{1,2}):(\d{2}) (AM|PM)$/;
+
+  if (!dateStr || typeof dateStr !== 'string') {
+    return {
+      date: undefined,
+      period: undefined,
+      formattedDate: undefined,
+    };
+  }
+
+  // Test the date range string against the pattern
+  const match = dateStr.toUpperCase().match(datePattern);
+
+  if (!match) {
+    throw new Error('Invalid date format');
+  }
+
+  // Extract the components from the match result
+  const [originalDateString, day, month, year, hour, minute, period] = match;
+  const hour1_24 = convertTo24HourFormat(hour, period);
+  const date = new Date(year, month - 1, day, hour1_24, minute);
+  const formattedDate = formatDate(date);
+
+  return {
+    date,
+    period,
+    formattedDate,
+  };
+};
+
 export const parseDateRange = (dateRangeStr) => {
   if (!dateRangeStr || typeof dateRangeStr !== 'string') {
     return {
@@ -42,12 +113,13 @@ export const parseDateRange = (dateRangeStr) => {
       period2: undefined,
       formattedDate1: undefined,
       formattedDate2: undefined,
+      formattedDateRange: undefined,
     };
   }
 
   // Define a regular expression to match the date range pattern
   const dateRangePattern =
-    /^(\d{2})\/(\d{2})\/(\d{4}) (\d{1,2}):(\d{2}) (AM|PM) - (\d{2})\/(\d{2})\/(\d{4}) (\d{1,2}):(\d{2}) (AM|PM)$/;
+    /(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [APM]{2}) - (\d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [APM]{2})/;
 
   // Test the date range string against the pattern
   const match = dateRangeStr.toUpperCase().match(dateRangePattern);
@@ -57,36 +129,20 @@ export const parseDateRange = (dateRangeStr) => {
   }
 
   // Extract the components from the match result
-  const [
-    originalDateString,
-    day1,
-    month1,
-    year1,
-    hour1,
-    minute1,
-    period1,
-    day2,
-    month2,
-    year2,
-    hour2,
-    minute2,
-    period2,
-  ] = match;
+  const [originalDateString, date1Str, date2Str] = match;
 
-  const hour1_24 = convertTo24HourFormat(hour1, period1);
-  const hour2_24 = convertTo24HourFormat(hour2, period2);
-
-  // Create Date objects for both dates
-  let date1 = new Date(year1, month1 - 1, day1, hour1_24, minute1);
-  let date2 = new Date(year2, month2 - 1, day2, hour2_24, minute2);
-
-  // swap the dates if the first is greater than the second
-  if (date1.getTime() > date2.getTime()) {
-    [date2, date1] = [date1, date2];
-  }
-
-  const formattedDate1 = formatDate(date1);
-  const formattedDate2 = formatDate(date2);
+  // Parse the date strings to date objects
+  const {
+    date: date1,
+    period: period1,
+    formattedDate: formattedDate1,
+  } = parseDate(date1Str);
+  const {
+    date: date2,
+    period: period2,
+    formattedDate: formattedDate2,
+  } = parseDate(date2Str);
+  const formattedDateRange = `${formattedDate1} - ${formattedDate2}`;
 
   return {
     date1,
@@ -95,11 +151,9 @@ export const parseDateRange = (dateRangeStr) => {
     period2,
     formattedDate1,
     formattedDate2,
+    formattedDateRange,
   };
 };
-
-export const getFormattedDate = (from, to) =>
-  from && to ? `${formatDate(from)} - ${formatDate(to)}` : undefined;
 
 export const secToMillis = (sec) => sec * 1000;
 export const minToMillis = (min) => secToMillis(min * 60);
@@ -120,3 +174,34 @@ export const utcToLocal = (date = new Date()) =>
       date.getSeconds()
     )
   );
+
+export const getDatesFromRange = (items, range) => {
+  const toDate = new Date();
+  const fromDate = new Date(
+    toDate.getTime() - items.find((item) => item.value === range).range
+  );
+
+  return formatDateRange({ fromDate, toDate });
+};
+
+export const getDateStrFromRangeStr = (name, nextDateRangeInputStr) => {
+  const { formattedDate1, formattedDate2 } = parseDateRange(
+    nextDateRangeInputStr
+  );
+
+  return name === CALENDAR.first ? formattedDate1 : formattedDate2;
+};
+
+export const getFormattedRangeStr = ({
+  name,
+  nextDateRangeInputStr,
+  formattedDate,
+}) => {
+  const { formattedDate1, formattedDate2 } = parseDateRange(
+    nextDateRangeInputStr
+  );
+
+  return name === CALENDAR.first
+    ? `${formattedDate} - ${formattedDate2}`
+    : `${formattedDate1} - ${formattedDate}`;
+};

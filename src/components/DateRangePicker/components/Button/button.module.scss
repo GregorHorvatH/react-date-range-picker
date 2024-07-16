@@ -3,17 +3,44 @@
   padding: 5px 14px;
   text-align: left;
 
-  &.dark {
-    border: 1px solid var(--light-text);
-    background-color: var(--dark-backgroud);
-    color: var(--light-text);
+  &.primary {
+    &.dark {
+      border: 1px solid var(--light-blue);
+      background-color: var(--light-blue);
+      color: var(--dark-text);
+    }
+
+    &.light {
+      border: 1px solid var(--dark-blue);
+      background-color: var(--dark-blue);
+      color: var(--white);
+    }
   }
 
-  &.light,
-  &:hover {
-    border: 1px solid var(--light-blue);
-    background-color: var(--light-blue);
-    color: var(--dark-text);
+  &.secondary {
+    &.dark {
+      border: 1px solid var(--light-text);
+      background-color: var(--dark-backgroud);
+      color: var(--light-text);
+
+      &:hover {
+        border: 1px solid var(--light-blue);
+        background-color: var(--light-blue);
+        color: var(--dark-text);
+      }
+    }
+
+    &.light {
+      border: 1px solid var(--dark-text);
+      background-color: var(--white);
+      color: var(--dark-text);
+
+      &:hover {
+        border: 1px solid var(--dark-blue);
+        background-color: var(--dark-blue);
+        color: var(--white);
+      }
+    }
   }
 
   &:hover {

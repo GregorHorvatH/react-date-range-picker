@@ -1,0 +1,111 @@
+.dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  flex: 1;
+  gap: 10px;
+  position: relative;
+}
+
+.default {
+  border: 1px solid var(--medium-gray);
+  padding: 8px 16px 8px 8px;
+
+  .active {
+    background-color: var(--light-blue);
+    color: var(--dark-text);
+  }
+
+  .list {
+    left: 0;
+    gap: 5px;
+  }
+
+  .listItem {
+    padding: 5px;
+  }
+}
+
+.text {
+  font-weight: 700;
+  padding: 8px 0px 8px 0px;
+
+  .list {
+    left: -50px;
+    border-radius: 5px;
+  }
+
+  .listItem {
+    display: flex;
+    gap: 10px;
+    padding: 3px 3px 3px 10px;
+  }
+}
+
+.arrowIcon {
+  cursor: pointer;
+  height: 14px;
+  width: 14px;
+
+  .default & {
+    fill: var(--medium-blue);
+  }
+
+  .light.text & {
+    fill: var(--dark-text);
+  }
+
+  .dark.text & {
+    fill: var(--light-text);
+  }
+}
+
+.checkIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.list {
+  position: absolute;
+  right: 0;
+  border: 1px solid var(--light-gray);
+  top: 38px;
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  overflow: auto;
+
+  &.dark {
+    background-color: var(--dark-gray);
+
+    .checkIcon {
+      fill: var(--light-text);
+    }
+  }
+
+  &.light {
+    .checkIcon {
+      fill: var(--dark-text);
+    }
+  }
+}
+
+.listItem {
+  &:hover {
+    background-color: var(--light-blue);
+    color: var(--dark-text);
+
+    .checkIcon {
+      fill: var(--dark-text);
+    }
+  }
+}
+
+.shadow {
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
+}
+
+.check {
+  width: 15px;
+}

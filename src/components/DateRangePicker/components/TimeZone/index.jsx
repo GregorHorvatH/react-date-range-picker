@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
 import { Radio } from '../Radio';
-import { TIME_ZONE, TIME_ZONES } from '../../constants';
+import { TIME_ZONES } from '../../constants';
+import { dateRangePickerContext } from '../../context';
 
 import styles from './timeZone.module.scss';
 
-export const TimeZone = ({
-  defaultValue = TIME_ZONE.local,
-  onChange = () => {},
-}) => {
-  const [activeValue, setActiveValue] = useState(defaultValue);
+export const TimeZone = ({ disabled }) => {
+  const { state, actions } = useContext(dateRangePickerContext);
+  const { nextTimeZone } = state;
 
   const handleChange = (e) => {
-    setActiveValue(e.target.value);
-    onChange(e.target.value);
+    actions.setNextTimeZone(e.target.value);
   };
 
   return (
     <div className={styles.timeZone}>
       {TIME_ZONES.map(([key, value]) => (
         <Radio
-          activeValue={activeValue}
+          activeValue={nextTimeZone}
+          disabled={disabled}
           key={key}
           value={value}
           onChange={handleChange}

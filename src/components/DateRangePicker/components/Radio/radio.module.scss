@@ -1,11 +1,46 @@
 .radioWrapper {
   display: flex;
   align-items: center;
+  cursor: pointer;
   gap: 5px;
+
+  &[disabled] {
+    cursor: auto;
+  }
 }
 
 .radio {
   accent-color: var(--light-blue);
+  cursor: pointer;
   width: 16px;
   height: 16px;
+  position: relative;
+
+  &[disabled] {
+    cursor: auto;
+  }
+
+  &[disabled][checked]:after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--light-gray);
+    left: 4px;
+    top: 4px;
+  }
+}
+
+.label {
+  cursor: pointer;
+
+  &[disabled] {
+    cursor: auto;
+  }
+}
+
+.disabled {
+  color: var(--light-gray);
 }
